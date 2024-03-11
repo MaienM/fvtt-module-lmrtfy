@@ -147,7 +147,7 @@ class LMRTFY {
             if (data?.user === 'no-check') {
                 actors = data.actors.map(id => game.actors.get(id));
             } else {
-                actors = data.actors.map(id => game.actors.get(id)).filter(a => a == game.user.character);
+                actors = data.actors.map(id => game.actors.get(id)).filter(a => a.ownership[game.user.id] === foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER);
             }
 
             if (actors.length === 0) return;

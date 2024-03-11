@@ -10,8 +10,11 @@ class LMRTFYPicker extends FormApplication {
             actors: [],
         };
 
-        game.users.filter(user => user.character && user.character.id).forEach((user) => {
-            this.actors[user.character.id] = user.character;
+        const users = game.users.filter(u => u.role <= foundry.CONST.USER_ROLES.TRUSTED).map(u => u._id);
+        game.actors.forEach((actor) => {
+            const owners = Object.entries(actor.ownership).filter(([u, o]) => users.includes(u) && o === foundry.CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER).map(([u, _]) => u);
+            if (owners.length > 0)
+                this.actors[actor.id] = actor;
         });
 
         const that = this;
